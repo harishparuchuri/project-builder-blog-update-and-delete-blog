@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -27,21 +28,25 @@ public class AddNewBlogController extends HttpServlet {
 		System.out.println("Entering do post");
 		String blogTitle = request.getParameter("title");
 		String blogDescription = request.getParameter("message");
-		LocalDate postedOn = LocalDate.now();
+		LocalDate posted_on = LocalDate.now();
 		System.out.println(blogTitle);
 		Blog blog = new Blog();
-	//	blog.setBlogId(++i);
+		blog.setBlogId(++i);
 		blog.setBlogTitle(blogTitle);
 		blog.setBlogDescription(blogDescription);
-		blog.setPostedOn(postedOn);
+		blog.setPostedOn(posted_on);
 		
 		BlogDaoImpl blogDao = new BlogDaoImpl();
-		blogDao.insertBlog(blog);
+		try {
+			blogDao.insertBlog(blog);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		response.sendRedirect("allblogs");
-		/*
-		 * RequestDispatcher rd=this.getServletContext().getRequestDispatcher(
-		 * "/WEB-INF/views/blogView.jsp"); rd.forward(request, response);
-		 */
 		
 	}
 }

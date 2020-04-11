@@ -10,8 +10,8 @@ import utility.ConnectionManager;
 
 public class UserDAO implements UserDaoInterface {
 
-	public int signUp(User user) {
-		String INSERT_USERS_SQL = "INSERT INTO USERS(email, password)VALUES(?,?)";
+	public int signUp(User user) throws ClassNotFoundException {
+		String INSERT_USERS_SQL = "INSERT INTO USER1(email, password)VALUES(?,?)";
 
 		int result = 0;
 		try
@@ -36,7 +36,7 @@ public class UserDAO implements UserDaoInterface {
 			Connection connection = ConnectionManager.getConnection();
 		
 				// Step 2:Create a statement using connection object
-		PreparedStatement preparedStatement = connection.prepareStatement("select * from users where email = ? and password = ? ");
+		PreparedStatement preparedStatement = connection.prepareStatement("select * from user1 where email = ? and password = ? ");
 		
 			preparedStatement.setString(1, user.getEmail());
 			preparedStatement.setString(2, user.getPassword());
@@ -48,6 +48,9 @@ public class UserDAO implements UserDaoInterface {
 		} catch (SQLException e) {
 			// process sql exception
 			System.out.println(e);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return status;
 	}
